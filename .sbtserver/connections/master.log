@@ -1,0 +1,13 @@
+New log file opened at Thu Jun 09 16:47:11 EDT 2016 by 3828@TJ-Workplace
+Taking next connection to: 64389
+New client attempting to connect on port: 64390-64389
+  Address = /192.168.56.1:64389
+This client on port 64390 has uuid 7e455dfb-740c-4cbd-aa19-b9e8ad9309ed configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
+Connected Clients: play-fork-run-7e455dfb-740c-4cbd-aa19-b9e8ad9309ed
+Taking next connection to: 64389
+Checking to see if clients are empty...
+No non-daemon clients connected after 3 min. Shutting down.
+Server socket thread exiting.
+0 clients open, will close them...
+All client sockets have been closed.
+Closing the 3828@TJ-Workplace logs at Thu Jun 09 16:50:13 EDT 2016, goodbye.
