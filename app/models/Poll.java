@@ -9,6 +9,8 @@ import java.util.List;
 /**
  * Created by Jasbuber on 09/06/2016.
  */
+@Entity
+@Table(name = "POLLS")
 public class Poll {
 
     @Id

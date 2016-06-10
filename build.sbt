@@ -10,8 +10,13 @@ libraryDependencies ++= Seq(
   javaJdbc,
   cache,
   javaWs,
+  javaJpa,
+  evolutions,
+  "org.hibernate" % "hibernate-entitymanager" % "4.2.12.Final",
   "org.postgresql" % "postgresql" % "9.3-1102-jdbc41",
-  evolutions
+  "com.google.code.gson" % "gson" % "2.2.2"
 )
 
 fork in run := true
+
+PlayKeys.externalizeResources := false
