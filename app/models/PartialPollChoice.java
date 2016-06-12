@@ -13,18 +13,16 @@ import javax.persistence.*;
 public class PartialPollChoice {
 
     @Id
-    @SequenceGenerator(name = "POLLER_CHOICE_SEQ_GEN", sequenceName = "POLLER_CHOICE_SEQ", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "POLLER_CHOICE_SEQ_GEN")
+    @SequenceGenerator(name = "PARTIAL_CHOICE_SEQ_GEN", sequenceName = "PARTIAL_CHOICE_SEQ", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PARTIAL_CHOICE_SEQ_GEN")
     private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "POLL_CHOICE_ID")
-    @NotNull
-    PollChoice choice;
 
     @Column(name = "NAME")
     @NotNull
     private String name;
+
+    @Column(name = "UNIVERSAL_VALUE")
+    private String universalValue;
 
     public PartialPollChoice() {
     }
@@ -33,11 +31,11 @@ public class PartialPollChoice {
         return id;
     }
 
-    public PollChoice getChoice() {
-        return choice;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public String getUniversalValue() {
+        return universalValue;
     }
 }
