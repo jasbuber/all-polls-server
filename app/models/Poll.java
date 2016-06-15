@@ -26,6 +26,9 @@ public class Poll {
     @Column(name = "TOPIC")
     String topic;
 
+    @Column(name = "REMOTE_IDENTIFIER")
+    String remoteId;
+
     @Column(name = "EXPIRATION_DATE")
     Date expirationDate;
 
@@ -45,5 +48,9 @@ public class Poll {
 
     public Date getExpirationDate() {
         return expirationDate;
+    }
+
+    public String getRemoteId() {
+        return remoteId;
     }
 }
