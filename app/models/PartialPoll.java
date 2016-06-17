@@ -23,8 +23,7 @@ public class PartialPoll {
     @OneToMany
     @JoinColumn(name = "PARTIAL_POLL_ID")
     @NotNull
-    @MapKey(name = "name")
-    private Map<String, PartialPollChoice> pollerChoices;
+    private List<PartialPollChoice> pollerChoices;
 
     @Column(name = "PROVIDER")
     private String provider;
@@ -47,7 +46,7 @@ public class PartialPoll {
         return pollster;
     }
 
-    public Map<String, PartialPollChoice> getPollerChoices() {
+    public List<PartialPollChoice> getPollerChoices() {
         return pollerChoices;
     }
 }
