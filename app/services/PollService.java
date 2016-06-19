@@ -14,6 +14,9 @@ public class PollService {
 
     public List<Poll> getPollsList() {
         return new PollRepository().getPollsList();
+    }
 
+    public Poll getPoll(long id) {
+        return new PollRepository().getPoll(id);
     }
 }

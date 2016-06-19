@@ -20,4 +20,16 @@ public class PollRepository {
         return polls;
 
     }
+
+    public Poll getPoll(long id) {
+        Query getPollQuery = JPA.em().createQuery("SELECT p " +
+                "FROM Poll p WHERE p.id = :id ");
+
+        getPollQuery.setParameter("id", id);
+
+        Poll poll = (Poll) getPollQuery.getSingleResult();
+
+        return poll;
+
+    }
 }

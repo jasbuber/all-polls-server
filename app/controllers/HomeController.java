@@ -37,7 +37,14 @@ public class HomeController extends Controller {
         return ok(new Gson().toJson(polls));
     }
 
-    private PollService getPollsService(){
+    @Transactional(readOnly = true)
+    public Result getPoll(long id) {
+
+        Poll poll = getPollsService().getPoll(id);
+        return ok(new Gson().toJson(poll));
+    }
+
+    private PollService getPollsService() {
         return new PollService();
     }
 
