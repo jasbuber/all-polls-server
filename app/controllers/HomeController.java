@@ -2,15 +2,11 @@ package controllers;
 
 import com.google.gson.Gson;
 import models.Poll;
-import play.Logger;
 import play.db.jpa.Transactional;
 import play.mvc.*;
 
 import services.PollService;
-import views.html.*;
 
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
 import java.util.List;
 
 /**
