@@ -13,7 +13,8 @@ public class PollRepository {
 
     public List<Poll> getPollsList() {
         Query getAllPollsQuery = JPA.em().createQuery("SELECT p " +
-                "FROM Poll p ");
+                "FROM Poll p WHERE p.expirationDate > current_date() OR p.expirationDate IS NULL " +
+                "ORDER BY p.createdDate DESC");
 
         List<Poll> polls = getAllPollsQuery.getResultList();
 

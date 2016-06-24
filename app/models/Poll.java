@@ -32,6 +32,12 @@ public class Poll {
     @Column(name = "EXPIRATION_DATE")
     Date expirationDate;
 
+    @Column(name = "LOCATION")
+    String location;
+
+    @Column(name = "CREATED_DATE")
+    Date createdDate;
+
     public Poll() {}
 
     public Long getId() {
@@ -52,5 +58,13 @@ public class Poll {
 
     public String getRemoteId() {
         return remoteId;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
     }
 }
