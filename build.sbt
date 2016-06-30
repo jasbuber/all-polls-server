@@ -17,6 +17,6 @@ libraryDependencies ++= Seq(
   "com.google.code.gson" % "gson" % "2.2.2"
 )
 
-fork in run := true
+fork in run := false
 
 PlayKeys.externalizeResources := false

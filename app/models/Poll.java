@@ -3,6 +3,7 @@ package models;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,7 +22,7 @@ public class Poll {
     @OneToMany
     @JoinColumn(name = "POLL_ID")
     @NotNull
-    List<PartialPoll> partialPolls;
+    List<PartialPoll> partialPolls = new ArrayList<>();
 
     @Column(name = "TOPIC")
     String topic;
@@ -36,9 +37,18 @@ public class Poll {
     String location;
 
     @Column(name = "CREATED_DATE")
-    Date createdDate;
+    Date createdDate = new Date();
+
+    @Column(name = "IS_ACTIVE")
+    char isActive = 'N';
 
     public Poll() {}
+
+    public Poll(String topic, String remoteId, String location) {
+        this.topic = topic;
+        this.remoteId = remoteId;
+        this.location = location;
+    }
 
     public Long getId() {
         return id;
@@ -66,5 +76,17 @@ public class Poll {
 
     public Date getCreatedDate() {
         return createdDate;
+    }
+
+    public void activate(){
+        this.isActive = 'Y';
+    }
+
+    public void deactivate(){
+        this.isActive = 'N';
+    }
+
+    public boolean isActive(){
+        return isActive == 'Y';
     }
 }

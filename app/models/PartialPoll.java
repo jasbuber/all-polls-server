@@ -3,10 +3,7 @@ package models;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Jasbuber on 09/06/2016.
@@ -23,7 +20,12 @@ public class PartialPoll {
     @OneToMany
     @JoinColumn(name = "PARTIAL_POLL_ID")
     @NotNull
-    private List<PartialPollChoice> pollerChoices;
+    private List<PartialPollChoice> pollerChoices = new ArrayList<>();
+
+    @ManyToOne(fetch=FetchType.LAZY)
+    @JoinColumn(name = "POLL_ID")
+    @NotNull
+    private Poll poll;
 
     @Column(name = "PROVIDER")
     private String provider;
@@ -31,7 +33,16 @@ public class PartialPoll {
     @Column(name = "POLLSTER")
     private String pollster;
 
+    @Column(name = "IS_ACTIVE")
+    char isActive = 'N';
+
     public PartialPoll() {
+    }
+
+    public PartialPoll(Poll poll, String provider, String pollster) {
+        this.poll = poll;
+        this.provider = provider;
+        this.pollster = pollster;
     }
 
     public Long getId() {
@@ -48,5 +59,29 @@ public class PartialPoll {
 
     public List<PartialPollChoice> getPollerChoices() {
         return pollerChoices;
+    }
+
+    public void setProvider(String provider) {
+        this.provider = provider;
+    }
+
+    public void setPollster(String pollster) {
+        this.pollster = pollster;
+    }
+
+    public void activate(){
+        this.isActive = 'Y';
+    }
+
+    public void deactivate(){
+        this.isActive = 'N';
+    }
+
+    public Poll getPoll() {
+        return poll;
+    }
+
+    public boolean isActive(){
+        return this.isActive == 'Y';
     }
 }

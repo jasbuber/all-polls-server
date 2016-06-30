@@ -5,6 +5,7 @@ import models.Poll;
 import play.db.jpa.Transactional;
 import play.mvc.*;
 
+import repositories.PollRepository;
 import services.PollService;
 
 import java.util.List;
@@ -41,7 +42,7 @@ public class HomeController extends Controller {
     }
 
     private PollService getPollsService() {
-        return new PollService();
+        return new PollService(new PollRepository());
     }
 
 

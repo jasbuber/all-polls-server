@@ -1,0 +1,13 @@
+@(topic: String, results: Map[String, List[PartialPollChoice]])
+
+<h1>@topic</h1>
+
+@for((key, value) <- results) {
+    <h2>@key</h2>
+
+    <ul>
+    @for(choice <- value) {
+        <li>@choice.getUniversalValue / @choice.getName / @choice.getValue</li>
+    }
+    </ul>
+}

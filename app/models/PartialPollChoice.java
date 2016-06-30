@@ -24,7 +24,15 @@ public class PartialPollChoice {
     @Column(name = "UNIVERSAL_VALUE")
     private String universalValue;
 
+    @Column(name = "VALUE")
+    private double value;
+
     public PartialPollChoice() {
+    }
+
+    public PartialPollChoice(String name, double value) {
+        this.name = name;
+        this.value = value;
     }
 
     public Long getId() {
@@ -37,5 +45,26 @@ public class PartialPollChoice {
 
     public String getUniversalValue() {
         return universalValue;
+    }
+
+    @Override
+    public String toString(){
+        return name + " - " + value;
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setUniversalValue(String universalValue) {
+        this.universalValue = universalValue;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
     }
 }
