@@ -1,5 +1,7 @@
 package models;
 
+import com.google.gson.annotations.Expose;
+
 import javax.validation.constraints.NotNull;
 
 import javax.persistence.*;
@@ -15,23 +17,39 @@ public class PartialPollChoice {
     @Id
     @SequenceGenerator(name = "PARTIAL_CHOICE_SEQ_GEN", sequenceName = "PARTIAL_CHOICE_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PARTIAL_CHOICE_SEQ_GEN")
+    @Expose
     private Long id;
 
+    @Expose
     @Column(name = "NAME")
     @NotNull
     private String name;
 
+    @Expose
     @Column(name = "UNIVERSAL_VALUE")
     private String universalValue;
 
+    @Expose
     @Column(name = "VALUE")
     private double value;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PARTIAL_POLL_ID")
+    @NotNull
+    private PartialPoll partial;
 
     public PartialPollChoice() {
     }
 
     public PartialPollChoice(String name, double value) {
         this.name = name;
+        this.value = value;
+    }
+
+    public PartialPollChoice(PartialPoll partial, String name, String universalValue, double value) {
+        this.partial = partial;
+        this.name = name;
+        this.universalValue = universalValue;
         this.value = value;
     }
 
@@ -48,7 +66,7 @@ public class PartialPollChoice {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return name + " - " + value;
     }
 

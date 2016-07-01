@@ -8,9 +8,9 @@ $(document).ready(function () {
 
         jsRoutes.controllers.AdminController.ajaxSwitchPollActive($pollId).ajax({
             success: function (data) {
-                if($this.text().trim() == "activate"){
+                if ($this.text().trim() == "activate") {
                     $this.text("deactivate");
-                }else{
+                } else {
                     $this.text("activate");
                 }
             }
@@ -22,11 +22,27 @@ $(document).ready(function () {
 
         jsRoutes.controllers.AdminController.ajaxSwitchPartialPollActive($partialId).ajax({
             success: function (data) {
-                if($this.text().trim() == "activate"){
+                if ($this.text().trim() == "activate") {
                     $this.text("deactivate");
-                }else{
+                } else {
                     $this.text("activate");
                 }
+            }
+        });
+
+    });
+
+    $(document).on("click", ".update-choice", function (e) {
+        var $this = $(this), $parent = $this.parents("div.choice-wrapper"), $choiceId = $parent.find(".choice-id").val(),
+            $name = $parent.find(".choice-name").val(), $universal = $parent.find(".choice-universal").val(),
+            $value = $parent.find(".choice-value").val();
+
+        jsRoutes.controllers.AdminController.ajaxUpdatePartialPollChoice($choiceId, $name, $universal, $value).ajax({
+            success: function (data) {
+                console.log(data);
+            },
+            error: function (data) {
+                alert("error");
             }
         });
 

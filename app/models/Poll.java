@@ -1,5 +1,7 @@
 package models;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -17,32 +19,39 @@ public class Poll {
     @Id
     @SequenceGenerator(name = "POLL_SEQ_GEN", sequenceName = "POLL_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "POLL_SEQ_GEN")
+    @Expose
     private Long id;
 
     @OneToMany
     @JoinColumn(name = "POLL_ID")
     @NotNull
+    @Expose
     List<PartialPoll> partialPolls = new ArrayList<>();
 
+    @Expose
     @Column(name = "TOPIC")
     String topic;
 
+    @Expose
     @Column(name = "REMOTE_IDENTIFIER")
     String remoteId;
 
     @Column(name = "EXPIRATION_DATE")
     Date expirationDate;
 
+    @Expose
     @Column(name = "LOCATION")
     String location;
 
+    @Expose
     @Column(name = "CREATED_DATE")
     Date createdDate = new Date();
 
     @Column(name = "IS_ACTIVE")
     char isActive = 'N';
 
-    public Poll() {}
+    public Poll() {
+    }
 
     public Poll(String topic, String remoteId, String location) {
         this.topic = topic;
@@ -78,15 +87,15 @@ public class Poll {
         return createdDate;
     }
 
-    public void activate(){
+    public void activate() {
         this.isActive = 'Y';
     }
 
-    public void deactivate(){
+    public void deactivate() {
         this.isActive = 'N';
     }
 
-    public boolean isActive(){
+    public boolean isActive() {
         return isActive == 'Y';
     }
 }

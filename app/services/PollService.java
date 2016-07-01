@@ -3,10 +3,8 @@ package services;
 import models.PartialPoll;
 import models.PartialPollChoice;
 import models.Poll;
-import play.db.jpa.JPA;
 import repositories.PollRepository;
 
-import javax.persistence.Query;
 import java.util.List;
 
 /**
@@ -58,5 +56,9 @@ public class PollService {
 
     public void createPartialPollChoice(PartialPollChoice choice) {
         repository.createPartialPollChoice(choice);
+    }
+
+    public List<Poll> getAllPollsList() {
+        return repository.getAllPollsList();
     }
 }

@@ -1,6 +1,7 @@
 package controllers;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import models.Poll;
 import play.db.jpa.Transactional;
 import play.mvc.*;
@@ -31,18 +32,22 @@ public class HomeController extends Controller {
     public Result getAvailablePolls() {
 
         List<Poll> polls = getPollsService().getPollsList();
-        return ok(new Gson().toJson(polls));
+        return ok(getGson().toJson(polls));
     }
 
     @Transactional(readOnly = true)
     public Result getPoll(long id) {
 
         Poll poll = getPollsService().getPoll(id);
-        return ok(new Gson().toJson(poll));
+        return ok(getGson().toJson(poll));
     }
 
     private PollService getPollsService() {
         return new PollService(new PollRepository());
+    }
+
+    public Gson getGson() {
+        return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     }
 
 

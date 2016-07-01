@@ -3,31 +3,35 @@
 # ~~~~
 
 # An example controller showing a sample home page
-GET         /                         controllers.HomeController.index
+GET         /                                    controllers.HomeController.index
 
-GET         /allpolls                 controllers.HomeController.getAvailablePolls
+GET         /allpolls                            controllers.HomeController.getAvailablePolls()
 
-GET         /poll                     controllers.HomeController.getPoll(id: Long)
+GET         /poll                                controllers.HomeController.getPoll(id: Long)
 
-GET         /a/huffington/poll        controllers.AdminController.getHuffingtonPollsByTopic(topic: String)
+GET         /a/huffington/poll                   controllers.AdminController.getHuffingtonPollsByTopic(topic: String)
 
-GET         /a/polls                  controllers.AdminController.showPollsList()
+GET         /a/polls                             controllers.AdminController.showPollsList()
 
-GET         /a/poll                   controllers.AdminController.showPoll(id: Long)
+GET         /a/poll                              controllers.AdminController.showPoll(id: Long)
 
-POST        /a/poll/create            controllers.AdminController.createPoll()
+POST        /a/poll/create                       controllers.AdminController.createPoll()
 
-POST        /a/poll/active            controllers.AdminController.ajaxSwitchPollActive(id: Long)
+POST        /a/poll/ajax/active                  controllers.AdminController.ajaxSwitchPollActive(id: Long)
 
-GET         /a/partial                controllers.AdminController.showPartialPoll(id: Long)
+GET         /a/partial                           controllers.AdminController.showPartialPoll(id: Long)
 
-POST        /a/partial/update         controllers.AdminController.updatePartialPoll()
+POST        /a/partial/update                    controllers.AdminController.updatePartialPoll()
 
-POST        /a/partial/create         controllers.AdminController.createPartialPoll()
+POST        /a/partial/create                    controllers.AdminController.createPartialPoll()
 
-POST        /a/partial/active         controllers.AdminController.ajaxSwitchPartialPollActive(id: Long)
+POST        /a/partial/ajax/active               controllers.AdminController.ajaxSwitchPartialPollActive(id: Long)
 
-GET         /javascriptRoutes         controllers.AdminController.javascriptRoutes()
+POST        /a/partial/choice/create             controllers.AdminController.createPartialChoice()
+
+POST        /a/partial/choice/ajax/update        controllers.AdminController.ajaxUpdatePartialPollChoice(choiceId: Long, name: String, universalValue: String, value: Double)
+
+GET         /javascriptRoutes                    controllers.AdminController.javascriptRoutes()
 
 # Map static resources from the /public folder to the /assets URL path
-GET         /assets/*file             controllers.Assets.versioned(path="/public", file: Asset)
+GET         /assets/*file                        controllers.Assets.versioned(path="/public", file: Asset)

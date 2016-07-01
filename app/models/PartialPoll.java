@@ -1,5 +1,7 @@
 package models;
 
+import com.google.gson.annotations.Expose;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
@@ -15,21 +17,25 @@ public class PartialPoll {
     @Id
     @SequenceGenerator(name = "PARTIAL_POLL_SEQ_GEN", sequenceName = "PARTIAL_POLL_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "PARTIAL_POLL_SEQ_GEN")
+    @Expose
     private Long id;
 
     @OneToMany
     @JoinColumn(name = "PARTIAL_POLL_ID")
     @NotNull
+    @Expose
     private List<PartialPollChoice> pollerChoices = new ArrayList<>();
 
-    @ManyToOne(fetch=FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "POLL_ID")
     @NotNull
     private Poll poll;
 
+    @Expose
     @Column(name = "PROVIDER")
     private String provider;
 
+    @Expose
     @Column(name = "POLLSTER")
     private String pollster;
 
@@ -69,11 +75,11 @@ public class PartialPoll {
         this.pollster = pollster;
     }
 
-    public void activate(){
+    public void activate() {
         this.isActive = 'Y';
     }
 
-    public void deactivate(){
+    public void deactivate() {
         this.isActive = 'N';
     }
 
@@ -81,7 +87,7 @@ public class PartialPoll {
         return poll;
     }
 
-    public boolean isActive(){
+    public boolean isActive() {
         return this.isActive == 'Y';
     }
 }

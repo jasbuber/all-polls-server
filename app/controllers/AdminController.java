@@ -5,7 +5,6 @@ import models.*;
 import models.forms.PartialPollChoiceForm;
 import models.forms.PartialPollForm;
 import models.forms.PollForm;
-import play.Logger;
 import play.Routes;
 import play.data.Form;
 import play.db.jpa.Transactional;
@@ -33,20 +32,20 @@ public class AdminController extends Controller {
     @Inject
     play.data.FormFactory formFactory;
 
-    public CompletionStage<Result> getHuffingtonPollsByTopic(String topic){
+    public CompletionStage<Result> getHuffingtonPollsByTopic(String topic) {
         return new AdminService().getHuffingtonPollsByTopic(ws, topic);
     }
 
     @Transactional(readOnly = true)
-    public Result showPollsList(){
-        List<Poll> polls = new PollService(new PollRepository()).getPollsList();
+    public Result showPollsList() {
+        List<Poll> polls = new PollService(new PollRepository()).getAllPollsList();
 
         Form<PollForm> form = formFactory.form(PollForm.class);
         return ok(polls_list.render(polls, form));
     }
 
     @Transactional(readOnly = true)
-    public Result showPoll(long id){
+    public Result showPoll(long id) {
         Poll poll = new PollService(new PollRepository()).getPoll(id);
 
         Form<PartialPollForm> form = formFactory.form(PartialPollForm.class);
@@ -55,7 +54,7 @@ public class AdminController extends Controller {
     }
 
     @Transactional(readOnly = true)
-    public Result showPartialPoll(long id){
+    public Result showPartialPoll(long id) {
         PartialPoll poll = new PollService(new PollRepository()).getPartialPoll(id);
 
         Form<PartialPollForm> form = formFactory.form(PartialPollForm.class);
@@ -66,7 +65,7 @@ public class AdminController extends Controller {
     }
 
     @Transactional
-    public Result updatePartialPoll(){
+    public Result updatePartialPoll() {
 
         Form<PartialPollForm> form = formFactory.form(PartialPollForm.class);
 
@@ -87,27 +86,22 @@ public class AdminController extends Controller {
     }
 
     @Transactional
-    public Result updatePartialPollChoice(){
-
-        Form<PartialPollChoiceForm> formChoice = formFactory.form(PartialPollChoiceForm.class);
-
-        PartialPollChoiceForm formData = formChoice.bindFromRequest(request()).get();
+    public Result ajaxUpdatePartialPollChoice(Long choiceId, String name, String universalValue, Double value) {
 
         PollService service = new PollService(new PollRepository());
 
-        PartialPollChoice choice = service.getPartialPollChoice(formData.getId());
-
-        choice.setName(formData.getName());
-        choice.setUniversalValue(formData.getUniversalValue());
-        choice.setValue(formData.getValue());
+        PartialPollChoice choice = service.getPartialPollChoice(choiceId);
+        choice.setName(name);
+        choice.setUniversalValue(universalValue);
+        choice.setValue(value);
 
         service.updatePartialPollChoice(choice);
 
-        return redirect(routes.AdminController.showPartialPoll(formData.getPartialId()));
+        return ok("success");
     }
 
     @Transactional
-    public Result createPoll(){
+    public Result createPoll() {
 
         PollService service = new PollService(new PollRepository());
 
@@ -123,25 +117,25 @@ public class AdminController extends Controller {
     }
 
     @Transactional
-    public Result ajaxSwitchPollActive(long id){
+    public Result ajaxSwitchPollActive(long id) {
 
         PollService service = new PollService(new PollRepository());
 
         Poll poll = service.getPoll(id);
 
-        if(poll.isActive()){
+        if (poll.isActive()) {
             poll.deactivate();
-        }else{
+        } else {
             poll.activate();
         }
 
         service.updatePoll(poll);
 
-        return redirect(routes.AdminController.showPollsList());
+        return ok("success");
     }
 
     @Transactional
-    public Result createPartialPoll(){
+    public Result createPartialPoll() {
 
         PollService service = new PollService(new PollRepository());
 
@@ -159,21 +153,40 @@ public class AdminController extends Controller {
     }
 
     @Transactional
-    public Result ajaxSwitchPartialPollActive(long id){
+    public Result ajaxSwitchPartialPollActive(long id) {
 
         PollService service = new PollService(new PollRepository());
 
         PartialPoll poll = service.getPartialPoll(id);
 
-        if(poll.isActive()){
+        if (poll.isActive()) {
             poll.deactivate();
-        }else{
+        } else {
             poll.activate();
         }
 
         service.updatePartialPoll(poll);
 
-        return redirect(routes.AdminController.showPoll(poll.getPoll().getId()));
+        return ok("success");
+    }
+
+    @Transactional
+    public Result createPartialChoice() {
+
+        PollService service = new PollService(new PollRepository());
+
+        Form<PartialPollChoiceForm> formChoice = formFactory.form(PartialPollChoiceForm.class);
+
+        PartialPollChoiceForm formData = formChoice.bindFromRequest(request()).get();
+
+        PartialPoll parent = service.getPartialPoll(formData.getPartialId());
+
+        PartialPollChoice choice = new PartialPollChoice(parent, formData.getName(), formData.getUniversalValue(),
+                formData.getValue());
+
+        service.createPartialPollChoice(choice);
+
+        return redirect(routes.AdminController.showPartialPoll(parent.getId()));
     }
 
     public Result javascriptRoutes() {
@@ -181,7 +194,8 @@ public class AdminController extends Controller {
         return ok(
                 Routes.javascriptRouter("jsRoutes",
                         routes.javascript.AdminController.ajaxSwitchPollActive(),
-                        routes.javascript.AdminController.ajaxSwitchPartialPollActive()
+                        routes.javascript.AdminController.ajaxSwitchPartialPollActive(),
+                        routes.javascript.AdminController.ajaxUpdatePartialPollChoice()
                 )
         );
     }

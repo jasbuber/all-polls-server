@@ -1,5 +1,9 @@
-@(name: String, universalValue: String, value: Double)
+@(choiceId: Long, name: String, universalValue: String, value: Double)
 
-<label>Name</label><input type="text" value="@name"/>
-<label>Universal</label><input type="text" value="@universalValue"/>
-<label>Value</label><input type="text" value="@value"/>
+<div class="choice-wrapper">
+    <label>Name: </label> <input class="choice-name" type="text" value="@name"/>
+    <label>Universal: </label> <input class="choice-universal" type="text" value="@universalValue"/>
+    <label>Value: </label> <input class="choice-value" type="text" value="@value"/>
+    <input type="hidden" class="choice-id" value="@choiceId">
+    <a class="update-choice" href="#">update</a>
+</div>

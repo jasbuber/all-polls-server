@@ -15,7 +15,17 @@ public class PollRepository {
 
     public List<Poll> getPollsList() {
         Query getAllPollsQuery = JPA.em().createQuery("SELECT p " +
-                "FROM Poll p WHERE p.expirationDate > current_date() OR p.expirationDate IS NULL " +
+                "FROM Poll p JOIN p.partialPolls polls " +
+                "WHERE (p.expirationDate > current_date() OR p.expirationDate IS NULL) AND p.isActive = 'Y' AND " +
+                "polls.isActive = 'Y' " +
+                "ORDER BY p.createdDate DESC");
+
+        return (List<Poll>) getAllPollsQuery.getResultList();
+    }
+
+    public List<Poll> getAllPollsList() {
+        Query getAllPollsQuery = JPA.em().createQuery("SELECT p " +
+                "FROM Poll p " +
                 "ORDER BY p.createdDate DESC");
 
         return (List<Poll>) getAllPollsQuery.getResultList();
