@@ -1,34 +1,39 @@
 @import java.util
 @(polls: util.List[Poll], pollForm: Form[forms.PollForm])
 
-@main("AllPolls Admin Area") {
-    <div>
-    @if(pollForm != null) {
-        @helper.form(action = routes.AdminController.createPoll(), 'id -> "myForm") {
+    @main("AllPolls Admin Area") {
+        <div>
+        @if(pollForm != null) {
+            @helper.form(action = routes.AdminController.createPoll(), 'id -> "myForm") {
 
-            @helper.inputText(pollForm("topic"), '_label -> "Topic:")
-            @helper.inputText(pollForm("remoteId"), '_label -> "RemoteId:")
-            @helper.inputText(pollForm("location"), '_label -> "Location:")
+                <h2>New Poll</h2>
+                @helper.inputText(pollForm("topic"), '_label -> "", 'placeholder -> "Topic", 'class -> "form-input")
+                @helper.inputText(pollForm("remoteId"), '_label -> "", 'placeholder -> "RemoteId", 'class -> "form-input")
+                <select name="location">
+                    <option value="United States" selected>United States</option>
+                    <option value="Global">Global</option>
+                </select>
 
-            <input type="submit">
+                <input type="submit" value="CREATE">
+                }
+
+        }
+        </div>
+        <div>
+            <h2>Polls List</h2>
+            @if(polls != null) {
+                <ul>
+                @for(poll <- polls) {
+                    <li>
+                        <a class="list-item-label" href="@routes.AdminController.showPoll(poll.getId)">@poll.getTopic</a>
+                        <a href="#" class="toggle-poll-active"> @if(poll.isActive) { deactivate } else { activate }
+                        </a>
+                        <input type="hidden" class="poll-id" value="@poll.getId">
+
+                    </li>
+                }
+                </ul>
+
             }
-
+        </div>
     }
-    </div>
-    <div>
-    @if(polls != null) {
-            <ul>
-            @for(poll <- polls) {
-                <li>
-                    <a href="@routes.AdminController.showPoll(poll.getId)">@poll.getTopic</a>
-                    <a href="#" class="toggle-poll-active"> @if(poll.isActive){ deactivate }else{ activate }
-                    </a>
-                    <input type="hidden" class="poll-id" value="@poll.getId">
-
-                </li>
-            }
-            </ul>
-
-    }
-    </div>
-}

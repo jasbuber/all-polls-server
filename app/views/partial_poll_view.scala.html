@@ -5,19 +5,21 @@
 
     @main("AllPolls Admin Area") {
         <div>
-        @if(pollForm != null) {
-            @helper.form(action = routes.AdminController.updatePartialPoll(), 'id -> "myForm") {
+            <h2>Update Partial Poll Data</h2>
+            @if(pollForm != null) {
+                @helper.form(action = routes.AdminController.updatePartialPoll(), 'id -> "myForm") {
 
-                @helper.inputText(pollForm("pollster"), '_label -> "Pollster:")
-                @helper.inputText(pollForm("provider"), '_label -> "Provider:")
+                    @helper.inputText(pollForm("pollster"), '_label -> "", 'placeholder -> "Pollster", 'class -> "form-input")
+                    @helper.inputText(pollForm("provider"), '_label -> "", 'placeholder -> "Provider", 'class -> "form-input")
 
-                <input type="hidden" name="id" value="@pollForm.get().getId"/>
-                <input type="submit">
-                }
+                    <input type="hidden" name="id" value="@pollForm.get().getId"/>
+                    <input type="submit" value="EDIT">
+                    }
 
-        }
+            }
         </div>
         <div>
+            <h2>Poller Choices</h2>
             <ul>
             @for(choice <- pollChoices) {
                 <li>@partial_choice_view(choice.getId, choice.getName, choice.getUniversalValue, choice.getValue)</li>
@@ -25,16 +27,17 @@
             </ul>
         </div>
         <div>
-        @if(choiceForm != null) {
-            @helper.form(action = routes.AdminController.createPartialChoice(), 'id -> "myForm2") {
-                @helper.inputText(choiceForm("name"), '_label -> "Name:")
-                @helper.inputText(choiceForm("universalValue"), '_label -> "UniversalValue:")
-                @helper.inputText(choiceForm("value"), '_label -> "Value:")
-                <input type="hidden" name="partialId" value="@pollForm.get().getId"/>
+            <h2>New Poll Choice</h2>
+            @if(choiceForm != null) {
+                @helper.form(action = routes.AdminController.createPartialChoice(), 'id -> "myForm2") {
+                    @helper.inputText(choiceForm("name"), '_label -> "", 'placeholder -> "Name", 'class -> "form-input")
+                    @helper.inputText(choiceForm("universalValue"), '_label -> "", 'placeholder -> "UniversalValue", 'class -> "form-input")
+                    @helper.inputText(choiceForm("value"), '_label -> "", 'placeholder -> "Value", 'class -> "form-input")
+                    <input type="hidden" name="partialId" value="@pollForm.get().getId"/>
 
-                <input type="submit">
-                }
+                    <input type="submit" value="CREATE">
+                    }
 
-        }
+            }
         </div>
     }
