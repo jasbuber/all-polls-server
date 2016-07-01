@@ -32,12 +32,34 @@ public class AdminController extends Controller {
     @Inject
     play.data.FormFactory formFactory;
 
+    public Result authorize(String token) {
+
+        if (new AdminService().isTokenValid(token)) {
+            session("token", token);
+            return redirect(routes.AdminController.showPollsList());
+        } else {
+            return ok("permission denied");
+        }
+    }
+
+    private boolean isTokenValid() {
+        return new AdminService().isTokenValid(session("token"));
+    }
+
     public CompletionStage<Result> getHuffingtonPollsByTopic(String topic) {
+        if (!isTokenValid()) {
+            return null;
+        }
         return new AdminService().getHuffingtonPollsByTopic(ws, topic);
     }
 
     @Transactional(readOnly = true)
     public Result showPollsList() {
+
+        if (!isTokenValid()) {
+            return ok("permission denied");
+        }
+
         List<Poll> polls = new PollService(new PollRepository()).getAllPollsList();
 
         Form<PollForm> form = formFactory.form(PollForm.class);
@@ -46,6 +68,11 @@ public class AdminController extends Controller {
 
     @Transactional(readOnly = true)
     public Result showPoll(long id) {
+
+        if (!isTokenValid()) {
+            return ok("permission denied");
+        }
+
         Poll poll = new PollService(new PollRepository()).getPoll(id);
 
         Form<PartialPollForm> form = formFactory.form(PartialPollForm.class);
@@ -55,6 +82,11 @@ public class AdminController extends Controller {
 
     @Transactional(readOnly = true)
     public Result showPartialPoll(long id) {
+
+        if (!isTokenValid()) {
+            return ok("permission denied");
+        }
+
         PartialPoll poll = new PollService(new PollRepository()).getPartialPoll(id);
 
         Form<PartialPollForm> form = formFactory.form(PartialPollForm.class);
@@ -66,6 +98,10 @@ public class AdminController extends Controller {
 
     @Transactional
     public Result updatePartialPoll() {
+
+        if (!isTokenValid()) {
+            return ok("permission denied");
+        }
 
         Form<PartialPollForm> form = formFactory.form(PartialPollForm.class);
 
@@ -88,6 +124,10 @@ public class AdminController extends Controller {
     @Transactional
     public Result ajaxUpdatePartialPollChoice(Long choiceId, String name, String universalValue, Double value) {
 
+        if (!isTokenValid()) {
+            return ok("permission denied");
+        }
+
         PollService service = new PollService(new PollRepository());
 
         PartialPollChoice choice = service.getPartialPollChoice(choiceId);
@@ -102,6 +142,10 @@ public class AdminController extends Controller {
 
     @Transactional
     public Result createPoll() {
+
+        if (!isTokenValid()) {
+            return ok("permission denied");
+        }
 
         PollService service = new PollService(new PollRepository());
 
@@ -118,6 +162,10 @@ public class AdminController extends Controller {
 
     @Transactional
     public Result ajaxSwitchPollActive(long id) {
+
+        if (!isTokenValid()) {
+            return ok("permission denied");
+        }
 
         PollService service = new PollService(new PollRepository());
 
@@ -137,6 +185,10 @@ public class AdminController extends Controller {
     @Transactional
     public Result createPartialPoll() {
 
+        if (!isTokenValid()) {
+            return ok("permission denied");
+        }
+
         PollService service = new PollService(new PollRepository());
 
         Form<PartialPollForm> formPoll = formFactory.form(PartialPollForm.class);
@@ -155,6 +207,10 @@ public class AdminController extends Controller {
     @Transactional
     public Result ajaxSwitchPartialPollActive(long id) {
 
+        if (!isTokenValid()) {
+            return ok("permission denied");
+        }
+
         PollService service = new PollService(new PollRepository());
 
         PartialPoll poll = service.getPartialPoll(id);
@@ -172,6 +228,10 @@ public class AdminController extends Controller {
 
     @Transactional
     public Result createPartialChoice() {
+
+        if (!isTokenValid()) {
+            return ok("permission denied");
+        }
 
         PollService service = new PollService(new PollRepository());
 

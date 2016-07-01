@@ -9,6 +9,8 @@ GET         /allpolls                            controllers.HomeController.getA
 
 GET         /poll                                controllers.HomeController.getPoll(id: Long)
 
+GET         /a/authorize                         controllers.AdminController.authorize(token: String)
+
 GET         /a/huffington/poll                   controllers.AdminController.getHuffingtonPollsByTopic(topic: String)
 
 GET         /a/polls                             controllers.AdminController.showPollsList()

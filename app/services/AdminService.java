@@ -8,9 +8,8 @@ import play.libs.ws.WSResponse;
 import play.mvc.Result;
 import views.html.pollster_poll;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.concurrent.CompletionStage;
 
 import static play.mvc.Results.ok;
@@ -20,7 +19,7 @@ import static play.mvc.Results.ok;
  */
 public class AdminService {
 
-    public CompletionStage<Result> getHuffingtonPollsByTopic(WSClient ws, String topic){
+    public CompletionStage<Result> getHuffingtonPollsByTopic(WSClient ws, String topic) {
         WSRequest request = ws.url("http://elections.huffingtonpost.com/pollster/api/polls.json")
                 .setQueryParameter("topic", topic);
 
@@ -28,20 +27,20 @@ public class AdminService {
 
             HashMap<String, List<PartialPollChoice>> results = new HashMap<>();
 
-            for(JsonNode json : wsResponse){
+            for (JsonNode json : wsResponse) {
                 String pollster = json.get("pollster").asText();
-                if(!results.containsKey(pollster)){
+                if (!results.containsKey(pollster)) {
 
                     List<PartialPollChoice> choices = new ArrayList<>();
                     JsonNode questions = json.get("questions");
 
-                    for(JsonNode question : questions){
+                    for (JsonNode question : questions) {
                         JsonNode qTopic = question.get("topic");
 
-                        if(!qTopic.isNull() && qTopic.asText().equals(topic)){
+                        if (!qTopic.isNull() && qTopic.asText().equals(topic)) {
                             JsonNode responses = question.get("subpopulations").get(0).get("responses");
 
-                            for(JsonNode choice: responses){
+                            for (JsonNode choice : responses) {
                                 String name = choice.get("choice").asText();
                                 double value = choice.get("value").doubleValue();
                                 choices.add(new PartialPollChoice(name, value));
@@ -54,8 +53,17 @@ public class AdminService {
                 }
             }
             return ok(pollster_poll.render(topic, results));
-        } );
+        });
 
+    }
+
+    public boolean isTokenValid(String token) {
+        return getCurrentToken().equals(token);
+    }
+
+    private String getCurrentToken() {
+        String text = "allall" + new SimpleDateFormat("dd-MM-yyyy", Locale.US).format(new Date()) + "QW0@lll";
+        return org.apache.commons.codec.digest.DigestUtils.sha256Hex(text);
     }
 
 }
