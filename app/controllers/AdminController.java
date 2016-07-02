@@ -93,7 +93,10 @@ public class AdminController extends Controller {
 
         Form<PartialPollChoiceForm> formChoice = formFactory.form(PartialPollChoiceForm.class);
 
-        return ok(partial_poll_view.render(form.fill(new PartialPollForm(poll)), poll.getPollerChoices(), formChoice));
+        PartialPollChoiceForm choiceData = new PartialPollChoiceForm();
+        choiceData.setValue(0);
+
+        return ok(partial_poll_view.render(form.fill(new PartialPollForm(poll)), poll.getPollerChoices(), formChoice.fill(choiceData)));
     }
 
     @Transactional
