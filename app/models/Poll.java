@@ -1,6 +1,9 @@
 package models;
 
 import com.google.gson.annotations.Expose;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.FilterJoinTable;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -14,6 +17,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "POLLS")
+@FilterDef(name="only_active")
 public class Poll {
 
     @Id
@@ -26,6 +30,7 @@ public class Poll {
     @JoinColumn(name = "POLL_ID")
     @NotNull
     @Expose
+    @Filter(name="only_active", condition="IS_ACTIVE='Y'")
     List<PartialPoll> partialPolls = new ArrayList<>();
 
     @Expose

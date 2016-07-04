@@ -3,6 +3,7 @@ package repositories;
 import models.PartialPoll;
 import models.PartialPollChoice;
 import models.Poll;
+import org.hibernate.Session;
 import play.db.jpa.JPA;
 
 import javax.persistence.Query;
@@ -14,11 +15,15 @@ import java.util.List;
 public class PollRepository {
 
     public List<Poll> getPollsList() {
+
+        Session session = JPA.em().unwrap(org.hibernate.Session.class);
+        session.enableFilter("only_active");
+
         Query getAllPollsQuery = JPA.em().createQuery("SELECT p " +
-                "FROM Poll p JOIN p.partialPolls polls " +
-                "WHERE (p.expirationDate > current_date() OR p.expirationDate IS NULL) AND p.isActive = 'Y' AND " +
-                "polls.isActive = 'Y' " +
+                "FROM Poll p " +
+                "WHERE (p.expirationDate > current_date() OR p.expirationDate IS NULL) AND p.isActive = 'Y' " +
                 "ORDER BY p.createdDate DESC");
+
 
         return (List<Poll>) getAllPollsQuery.getResultList();
     }
