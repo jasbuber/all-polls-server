@@ -1,35 +1,36 @@
 @import models.forms.PartialPollForm
 @(poll: Poll, partialForm: Form[PartialPollForm])
 
-    @main("AllPolls Admin Area") {
-        <div>
-            <h2>New Partial Poll</h2>
-            @if(partialForm != null) {
-                @helper.form(action = routes.AdminController.createPartialPoll(), 'id -> "myForm2") {
-                    @helper.inputText(partialForm("provider"), '_label -> "", 'placeholder -> "Provider", 'class -> "form-input")
-                    @helper.inputText(partialForm("pollster"), '_label -> "", 'placeholder -> "Pollster", 'class -> "form-input")
-                    <input type="hidden" name="pollId" value="@poll.getId"/>
+@main("AllPolls Admin Area") {
+    <div><a href="@routes.AdminController.showPollsList()">back</a></div>
+    <div>
+        <h2>New Partial Poll</h2>
+        @if(partialForm != null) {
+            @helper.form(action = routes.AdminController.createPartialPoll(), 'id -> "myForm2") {
+                @helper.inputText(partialForm("provider"), '_label -> "", 'placeholder -> "Provider", 'class -> "form-input")
+                @helper.inputText(partialForm("pollster"), '_label -> "", 'placeholder -> "Pollster", 'class -> "form-input")
+                <input type="hidden" name="pollId" value="@poll.getId"/>
 
-                    <input type="submit" value="CREATE">
-                    }
-
-            }
-        </div>
-        <div>
-        @if(poll != null) {
-            <h2>@poll.getTopic</h2>
-
-            <ul>
-            @for(partial <- poll.getPartialPolls) {
-                <li>
-                    <a class="list-item-label" href="@routes.AdminController.showPartialPoll(partial.getId)">@partial.getPollster</a>
-                    <a href="#" class="toggle-partial-active"> @if(partial.isActive) { deactivate } else { activate }
-                    </a>
-                    <input type="hidden" class="partial-id" value="@partial.getId">
-                </li>
-            }
-            </ul>
+                <input type="submit" value="CREATE">
+                }
 
         }
-        </div>
+    </div>
+    <div>
+    @if(poll != null) {
+        <h2>@poll.getTopic</h2>
+
+        <ul>
+        @for(partial <- poll.getPartialPolls) {
+            <li>
+                <a class="list-item-label" href="@routes.AdminController.showPartialPoll(partial.getId)">@partial.getPollster</a>
+                <a href="#" class="toggle-partial-active action-link"> @if(partial.isActive) {
+                    deactivate } else { activate }</a>
+                <input type="hidden" class="partial-id" value="@partial.getId">
+            </li>
+        }
+        </ul>
+
     }
+    </div>
+}

@@ -25,6 +25,7 @@ public class PartialPollForm {
         this.id = poll.getId();
         this.provider = poll.getProvider();
         this.pollster = poll.getPollster();
+        this.pollId = poll.getPoll().getId();
     }
 
     public Long getId() {

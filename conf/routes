@@ -11,7 +11,7 @@ GET         /poll                                controllers.HomeController.getP
 
 GET         /a/authorize                         controllers.AdminController.authorize(token: String)
 
-GET         /a/huffington/poll                   controllers.AdminController.getHuffingtonPollsByTopic(topic: String)
+GET         /a/huffington/poll                   controllers.AdminController.getHuffingtonPollsByTopic(topic: java.lang.String)
 
 GET         /a/polls                             controllers.AdminController.showPollsList()
 
