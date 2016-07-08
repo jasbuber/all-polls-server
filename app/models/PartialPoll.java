@@ -40,7 +40,11 @@ public class PartialPoll {
     private String pollster;
 
     @Column(name = "IS_ACTIVE")
-    char isActive = 'N';
+    private char isActive = 'N';
+
+    @Expose
+    @Column(name = "LAST_UPDATED")
+    private Date lastUpdated = new Date();
 
     public PartialPoll() {
     }
@@ -89,5 +93,13 @@ public class PartialPoll {
 
     public boolean isActive() {
         return this.isActive == 'Y';
+    }
+
+    public Date getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(Date lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 }

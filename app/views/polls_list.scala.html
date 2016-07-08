@@ -26,7 +26,10 @@
                 @for(poll <- polls) {
                     <li>
                         <a class="list-item-label" href="@routes.AdminController.showPoll(poll.getId)">@poll.getTopic</a>
-                        <a href="@routes.AdminController.getHuffingtonPollsByTopic(poll.getRemoteId)" class="action-link">model</a>
+                        @if(!poll.getRemoteId.isEmpty) {
+                            <a href="@routes.AdminController.getHuffingtonPollsByTopic(poll.getRemoteId)" class="action-link">
+                                model</a>
+                        }
                         <a href="#" class="toggle-poll-active action-link"> @if(poll.isActive) { deactivate } else { activate }</a>
                         <input type="hidden" class="poll-id" value="@poll.getId">
 

@@ -18,6 +18,7 @@ import views.html.partial_poll_view;
 import views.html.poll_view;
 import views.html.polls_list;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.CompletionStage;
 
@@ -118,6 +119,7 @@ public class AdminController extends Controller {
 
         poll.setPollster(formData.getPollster());
         poll.setProvider(formData.getProvider());
+        poll.setLastUpdated(formData.getLastUpdated());
 
         service.updatePartialPoll(poll);
 

@@ -12,6 +12,7 @@
 
                 @helper.inputText(pollForm("pollster"), '_label -> "", 'placeholder -> "Pollster", 'class -> "form-input")
                 @helper.inputText(pollForm("provider"), '_label -> "", 'placeholder -> "Provider", 'class -> "form-input")
+                @helper.inputDate(pollForm("lastUpdated"), '_label -> "", 'placeholder -> "Last Updated", 'class -> "form-input")
 
                 <input type="hidden" name="id" value="@pollForm.get().getId"/>
                 <input type="submit" value="EDIT">

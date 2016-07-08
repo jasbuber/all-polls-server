@@ -2,6 +2,7 @@ package models.forms;
 
 import models.PartialPoll;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,15 +18,18 @@ public class PartialPollForm {
 
     private long pollId;
 
-    public PartialPollForm(){
+    Date lastUpdated;
+
+    public PartialPollForm() {
 
     }
 
-    public PartialPollForm(PartialPoll poll){
+    public PartialPollForm(PartialPoll poll) {
         this.id = poll.getId();
         this.provider = poll.getProvider();
         this.pollster = poll.getPollster();
         this.pollId = poll.getPoll().getId();
+        this.lastUpdated = poll.getLastUpdated();
     }
 
     public Long getId() {
@@ -58,5 +62,13 @@ public class PartialPollForm {
 
     public void setPollId(long pollId) {
         this.pollId = pollId;
+    }
+
+    public Date getLastUpdated() {
+        return lastUpdated;
+    }
+
+    public void setLastUpdated(Date lastUpdated) {
+        this.lastUpdated = lastUpdated;
     }
 }
